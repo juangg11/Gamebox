@@ -79,6 +79,7 @@ body {
   font-weight: 800;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   padding-left: 0.5rem;
 }
@@ -211,6 +212,7 @@ body {
   font-weight: 900;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
   display: flex;
@@ -282,6 +284,40 @@ body {
   font-weight: 700;
   margin-left: 0.5rem;
   cursor: pointer;
+}
+
+.auth-divider {
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.btn-guest {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-guest:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary);
 }
 
 
@@ -826,6 +862,78 @@ body {
   background: var(--glass);
   color: #fff;
   border-color: var(--border);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: var(--glass);
+  color: #fff;
+}
+
+.profile-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.profile-activity {
+  min-width: 0;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.empty-activity {
+  padding: 3rem;
+  text-align: center;
+  background: var(--glass);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-dim);
+}
+
+.sidebar-card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 1024px) {
+  .profile-content-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 

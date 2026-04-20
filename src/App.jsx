@@ -102,17 +102,41 @@ function LoginForm({ setUser }) {
             {isSignUp ? 'Inicia Sesión' : 'Crea una'}
           </button>
         </div>
+        <div className="auth-divider">
+          <span>O también</span>
+        </div>
+        <button 
+          type="button" 
+          className="btn-guest"
+          onClick={() => setUser({
+            id: 'guest-id',
+            aud: 'authenticated',
+            role: 'authenticated',
+            email: 'invitado@gamebox.com',
+            user_metadata: {
+              nombre: 'Invitado',
+              avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=guest'
+            },
+            isGuest: true
+          })}
+        >
+          Entrar como Invitado
+        </button>
       </div>
     </div>
   );
 }
 
-function Nav({ user }) {
+function Nav({ user, setUser }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (user?.isGuest) {
+      setUser(null);
+    } else {
+      await supabase.auth.signOut();
+    }
     navigate('/');
     window.location.reload();
   };
@@ -193,7 +217,7 @@ function App() {
           </linearGradient>
         </defs>
       </svg>
-      <Nav user={user} />
+      <Nav user={user} setUser={setUser} />
       <main className="content">
         <Routes>
           <Route path="/" element={<HomePage user={user} />} />

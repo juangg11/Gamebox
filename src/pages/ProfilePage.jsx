@@ -29,6 +29,19 @@ export default function ProfilePage({ user: currentUser }) {
   const fetchProfileData = async () => {
     setLoading(true);
     try {
+      if (isOwnProfile && currentUser?.isGuest) {
+        setProfile({
+          nombre: currentUser.user_metadata.nombre,
+          avatar_url: currentUser.user_metadata.avatar_url,
+          bio: 'Estás navegando como invitado. Las funciones sociales están limitadas.',
+          created_at: new Date().toISOString()
+        });
+        setReviews([]);
+        setStats({ followers: 0, following: 0 });
+        setLoading(false);
+        return;
+      }
+
       const { data: profileData } = await supabase
         .from('perfil')
         .select('*')
@@ -92,6 +105,10 @@ export default function ProfilePage({ user: currentUser }) {
 
   const handleFollow = async () => {
     if (!currentUser) return;
+    if (currentUser?.isGuest) {
+      alert('Los invitados no pueden seguir a otros usuarios. ¡Crea una cuenta!');
+      return;
+    }
     
     if (isFollowing) {
       await supabase

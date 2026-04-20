@@ -3,7 +3,7 @@ import api from '../api/rawg';
 import { supabase } from '../supabaseClient';
 import { SearchIcon, StarIcon, CloseIcon, StarRating } from '../components/Icons';
 
-function VoteModal({ game, userVote, onClose, onVote }) {
+function VoteModal({ game, userVote, onClose, onVote, user }) {
   const [stars, setStars] = useState(userVote?.estrellas || 0);
   const [hoveredStars, setHoveredStars] = useState(0);
   const [comment, setComment] = useState(userVote?.comentario || '');
@@ -12,6 +12,10 @@ function VoteModal({ game, userVote, onClose, onVote }) {
   const handleSubmit = async () => {
     if (stars === 0) {
       alert('Por favor selecciona una calificación');
+      return;
+    }
+    if (user?.isGuest) {
+      alert('Los invitados no pueden votar. ¡Crea una cuenta para participar!');
       return;
     }
     setSaving(true);
@@ -241,6 +245,7 @@ export default function HomePage({ user }) {
           userVote={userVotes[showVoteModal.id]}
           onClose={() => setShowVoteModal(null)}
           onVote={handleVote}
+          user={user}
         />
       )}
     </div>

@@ -19,6 +19,15 @@ export default function SettingsPage({ user }) {
   }, [user]);
 
   const fetchProfile = async () => {
+    if (user?.isGuest) {
+      setProfile({
+        nombre: user.user_metadata.nombre,
+        bio: 'Navegando como invitado.',
+        avatar_url: user.user_metadata.avatar_url
+      });
+      setLoading(false);
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from('perfil')
@@ -41,6 +50,10 @@ export default function SettingsPage({ user }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if (user?.isGuest) {
+      setMessage('Error: Los invitados no pueden cambiar sus ajustes. ¡Crea una cuenta para personalizar tu perfil!');
+      return;
+    }
     setSaving(true);
     setMessage('');
 
@@ -66,6 +79,10 @@ export default function SettingsPage({ user }) {
     const file = e.target.files[0];
     if (!file) return;
 
+    if (user?.isGuest) {
+      setMessage('Error: Los invitados no pueden subir imágenes.');
+      return;
+    }
     setSaving(true);
     setMessage('Subiendo imagen...');
 
