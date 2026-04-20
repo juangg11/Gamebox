@@ -15,7 +15,7 @@ export default function UsersPage({ currentUser }) {
   const fetchUsers = async (query = '') => {
     setLoading(true);
     try {
-      // 1. Obtener quiénes sigo ya
+      
       let followedIds = [];
       if (currentUser) {
         const { data: follows } = await supabase
@@ -25,7 +25,7 @@ export default function UsersPage({ currentUser }) {
         followedIds = follows?.map(f => f.id_seguido) || [];
       }
 
-      // 2. Obtener usuarios
+      
       let q = supabase.from('perfil').select('*');
       
       if (currentUser) {
@@ -38,19 +38,19 @@ export default function UsersPage({ currentUser }) {
 
       const { data } = await q;
       
-      // 3. Aleatorizar y ordenar (los que no sigo salen arriba, pero permutados)
+      
       const processed = (data || []).map(u => ({
         ...u,
         isFollowed: followedIds.includes(u.id_per),
         randomKey: Math.random()
       }));
 
-      // Ordenar: primero no seguidos, luego aleatorio
+      
       const sorted = processed.sort((a, b) => {
         if (a.isFollowed !== b.isFollowed) {
-          return a.isFollowed ? 1 : -1; // Los seguidos van al final
+          return a.isFollowed ? 1 : -1; 
         }
-        return a.randomKey - b.randomKey; // Aleatoriedad dentro de cada grupo
+        return a.randomKey - b.randomKey; 
       });
       
       setUsers(sorted.slice(0, 16));
@@ -70,7 +70,6 @@ export default function UsersPage({ currentUser }) {
       <header className="page-header">
         <div className="header-title-row">
           <h1>Comunidad</h1>
-          <UsersIcon className="icon-header" />
         </div>
         
         <form onSubmit={handleSearch} className="search-bar-premium">

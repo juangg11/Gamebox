@@ -12,7 +12,7 @@ export default function ProfilePage({ user: currentUser }) {
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [stats, setStats] = useState({ followers: 0, following: 0 });
-  const [showListModal, setShowListModal] = useState(null); // 'followers' or 'following' or null
+  const [showListModal, setShowListModal] = useState(null);
   const [connectionList, setConnectionList] = useState([]);
   const [listLoading, setListLoading] = useState(false);
 
@@ -201,7 +201,6 @@ export default function ProfilePage({ user: currentUser }) {
       <div className="profile-content-grid">
         <div className="profile-activity">
           <div className="section-header">
-            <GamepadIcon />
             <h2>Actividad Reciente</h2>
           </div>
           

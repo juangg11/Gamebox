@@ -8,7 +8,6 @@ import {
   SearchIcon, StarIcon, HomeIcon, SettingsIcon
 } from './components/Icons';
 
-// Pages
 import HomePage from './pages/HomePage';
 import RankingPage from './pages/RankingPage';
 import ProfilePage from './pages/ProfilePage';
@@ -42,7 +41,7 @@ function LoginForm({ setUser }) {
         });
 
         if (!result.error && result.data.user) {
-          // Creación inicial del perfil
+          
           await supabase.from('perfil').insert({
             id_per: result.data.user.id,
             nombre: email.split('@')[0],
@@ -186,7 +185,6 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Definición de degradado para media estrella */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
           <linearGradient id="half-fill" x1="0" x2="100%" y1="0" y2="0">

@@ -5,12 +5,12 @@ import { TrophyIcon, StarIcon, StarRating } from '../components/Icons';
 
 export default function RankingPage() {
   const [rankedGames, setRankedGames] = useState([]);
-  const [filters, setFilters] = useState([]); // Antes 'genres'
-  const [selectedFilter, setSelectedFilter] = useState(null); // Objeto completo {id, filterType}
+  const [filters, setFilters] = useState([]); 
+  const [selectedFilter, setSelectedFilter] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
-  // 1. Cargar filtros una sola vez al montar el componente
+  
   useEffect(() => {
     const fetchFilterData = async () => {
       try {
@@ -19,13 +19,13 @@ export default function RankingPage() {
           api.get('/tags', { params: { page_size: 40, ordering: '-games_count' } })
         ]);
 
-        // Combinar y asegurar que no haya duplicados visuales por nombre
+        
         const combined = [
           ...genresRes.data.results.map(g => ({ ...g, filterType: 'genre' })),
           ...tagsRes.data.results.map(t => ({ ...t, filterType: 'tag' }))
         ];
 
-        // Ordenar alfabéticamente y guardar
+        
         setFilters(combined.sort((a, b) => a.name.localeCompare(b.name)));
       } catch (err) {
         console.error("Error cargando filtros:", err);
@@ -34,11 +34,11 @@ export default function RankingPage() {
     fetchFilterData();
   }, []);
 
-  // 2. Lógica de Ranking
+  
   const fetchRanking = useCallback(async () => {
     setLoading(true);
     try {
-      const limit = selectedFilter ? 80 : 10; // Traemos suficientes para filtrar
+      const limit = selectedFilter ? 80 : 10; 
 
       const { data: dbGames } = await supabase
         .from('juego')
@@ -82,7 +82,7 @@ export default function RankingPage() {
     fetchRanking();
   }, [fetchRanking]);
 
-  // Limitar la vista previa de filtros
+  
   const visibleFilters = useMemo(() => {
     return showAll ? filters : filters.slice(0, 15);
   }, [showAll, filters]);
@@ -92,7 +92,6 @@ export default function RankingPage() {
       <header className="page-header">
         <div className="header-title-row">
           <h1>Top Rankings</h1>
-          <TrophyIcon className="trophy-main" />
         </div>
 
         <div className="filters-container">
@@ -104,13 +103,13 @@ export default function RankingPage() {
           </button>
 
           {visibleFilters.map(f => {
-            // SOLUCIÓN AL "MARCAR DOS A LA VEZ":
-            // Comparamos ID Y TIPO para que no haya colisiones
+            
+            
             const isActive = selectedFilter?.id === f.id && selectedFilter?.filterType === f.filterType;
 
             return (
               <button
-                key={`${f.filterType}-${f.id}`} // Key única combinada
+                key={`${f.filterType}-${f.id}`} 
                 className={`filter-pill ${isActive ? 'active' : ''}`}
                 onClick={() => setSelectedFilter(f)}
               >

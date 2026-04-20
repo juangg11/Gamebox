@@ -92,7 +92,7 @@ export default function HomePage({ user }) {
       const res = await api.get('/games', { params: { search: query, page_size: 20 } });
       setGames(res.data.results);
       
-      // Fetch global ratings for these games
+      
       const ids = res.data.results.map(g => g.id);
       const { data: globalData } = await supabase
         .from('juego')
@@ -150,13 +150,13 @@ export default function HomePage({ user }) {
           });
       }
 
-      // Update local state
+      
       setUserVotes(prev => ({
         ...prev,
         [gameId]: { estrellas: stars, comentario: comment }
       }));
 
-      // Update global rating
+      
       const { data: allReviews } = await supabase
         .from('reviews')
         .select('estrellas')
